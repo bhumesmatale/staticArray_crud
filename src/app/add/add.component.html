@@ -1,0 +1,83 @@
+<div *ngIf="alert" class="alert alert-sucess alert-dismissible fade show" role="alert">
+    <strong style="color:green;">Success!</strong>
+    your data has been entered
+    <button (click)="closeAlert()" type="button" class="close" data-dismiss="alert" aria-label="close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<form [formGroup]="addform" (ngSubmit)="add()" style="text-align: center;">
+    <div class="form-group row">
+        <label for="exampleInputEmail1" class="col-sm-1 col-form-label">Id</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" formControlName="id" placeholder="id">
+        </div>
+    </div>
+    <br>
+    <div class="form-group  row">
+        <label for="exampleInputEmail1" class="col-sm-1 col-form-label"> FirstName<span
+                style="color:red;">*</span></label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" formControlName="firstName" placeholder="Enter first Name">
+            <span style="color:#DC3545; font-size: 10px;" *ngIf="firstName.invalid && firstName.touched">FirstName is
+                Required</span>
+        </div>
+    </div>
+    <br>
+    <div class="form-group row">
+        <label for="exampleInputEmail1" class="col-sm-1 col-form-label">LastName<span
+                style="color:red;">*</span></label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" formControlName="lastName" placeholder="Enter last name">
+            <span style="color:#DC3545; font-size: 10px;" *ngIf="lastName.invalid &&lastName.touched">LastName is
+                Required</span>
+        </div>
+    </div>
+    <br>
+    <div class="form-group row">
+        <label for="exampleInputEmail1" class="col-sm-1 col-form-label">Phone No<span
+                style="color:red;">*</span></label>
+        <div class="col-sm-8">
+            <input type="tel" class="form-control" formControlName="phone" placeholder="Enter phone no"
+                appAppAlphabetOnly>
+            <span style="color:#DC3545; font-size: 10px;" *ngIf="phone.invalid && phone.touched">
+                <small class="text-danger" *ngIf="phone.errors?.required">
+                    Please Enter the Mobile Number(only Number)!
+                </small>
+                <small class="text-danger" *ngIf="phone.errors?.pattern">
+                    Please only 10 Digit No Format!
+                </small>
+            </span>
+        </div>
+    </div>
+<br>
+    <div  class="col-md-8 text-center">
+        <!-- <button type="submit" class="btn btn-primary" (click)="add()">{{editMode? 'update' :'Submit'}}</button>&nbsp;&nbsp; -->
+        <button type="submit" class="btn btn-primary" (click)="add()"  (click)="toggleShow()"[disabled]="!addform.valid">Add</button>&nbsp;&nbsp;
+        <button type="submit" class="btn btn-primary" (click)="update()">Update</button>&nbsp;&nbsp;
+        <button type="submit" class="btn btn-primary" (click)="list()">list</button>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">First Name </th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Phone No</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of arralist; let i =index">
+            <th scope="row">{{item.id}}</th>
+            <th>{{item.firstName}} </th>
+            <th>{{item.lastName}}</th>
+            <th>{{item.phone}}</th>
+            <th><i (click)="deletecontact(item.id)" class="fa fa-trash" style="font-size:20px;color:red;">
+                </i>
+            </th>
+            <th> <i (click)="RowSelected(item)" class="fa fa-edit" style="font-size:20px;color:blue;">
+                </i>
+            </th>
+        </tr>
+    </tbody>
+</table>
